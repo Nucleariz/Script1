@@ -1,0 +1,31 @@
+
+	local rayOrigin = caster.Position
+	local rayDirection = Vector3.new(0, -100, 0)
+	local raycastParams = RaycastParams.new()
+	raycastParams.FilterDescendantsInstances = {caster.Parent}
+	raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
+	local raycastResult = workspace:Raycast(rayOrigin, rayDirection, raycastParams)
+ 
+	if raycastResult then
+		local hitPart = raycastResult.Instance
+		if hitPart.Parent == workspace.Tiles and hitPart.Transparency == 0 and not hitPart.Locked then
+			hitPart.Locked = true
+			caster.BeamEndAttachment.Position = Vector3.new(0, (hitPart.Position.Y-caster.Position.Y)+raycastResult.Position.Y, 0)
+			caster.Beam.Enabled = true
+			caster.BeamEndAttachment.BurnEffect.Enabled = true
+			wait(TILE_MELT_DELAY)
+			tweenTile(hitPart, 1)
+		end
+	end
+	moveCaster()
+end
+
+
+
+---
+
+local function fireLaser()
+	local rayOrigin = caster.Position
+	local rayDirection = Vector3.new(0, -100, 0)
+
+---
